@@ -1,0 +1,105 @@
+package Exercicio4;
+
+import java.util.*;
+
+public class Atividade4 {
+    public static final String VALOR_INVÁLIDO_DIGITE_UM_NÚMERO_VÁLIDO = "valor inválido, digite um número válido";
+
+    public static void main(String[] args) {
+
+
+        System.out.println("-------------------------------------------------------------------------------");
+        System.out.println("    Contar quantidade de zeros a direita no resultado do fatorial do número");
+        System.out.println("-------------------------------------------------------------------------------");
+
+        int repetirOperacao = 1;
+
+
+        while (repetirOperacao == 1) {
+            int blockSize = 0;
+            int fileSize = 0;
+            HashSet<Integer> valores =  new HashSet<>();
+            Scanner scr = new Scanner(System.in);
+            boolean verificaInsert = false;
+            while (!verificaInsert) {
+                try {
+                    System.out.println("Insira o tamanho do bloco:");
+                    blockSize = scr.nextInt();
+                    verificaInsert = true;
+                } catch (InputMismatchException e) {
+                    System.out.println(VALOR_INVÁLIDO_DIGITE_UM_NÚMERO_VÁLIDO);
+                    verificaInsert = false;
+                }
+            }
+
+            verificaInsert = false;
+            while (!verificaInsert) {
+                try {
+                    System.out.println("Insira o tamanho do aquivo:");
+                    fileSize = scr.nextInt();
+                    verificaInsert = true;
+                } catch (InputMismatchException e) {
+                    System.out.println(VALOR_INVÁLIDO_DIGITE_UM_NÚMERO_VÁLIDO);
+                    verificaInsert = false;
+                }
+            }
+
+            verificaInsert = false;
+            while (!verificaInsert) {
+                try {
+
+                    int continua = 1;
+                    System.out.println("Inserir espaços ocupados?  '1' - Sim / '0' - Não");
+                    continua = scr.nextInt();
+                    while (continua == 1) {
+                        if (valores.size() <= blockSize) {
+                            System.out.println("Insira um espaços ocupados:");
+                            valores.add(scr.nextInt());
+                            System.out.println("Inserir outro?  '1' - Sim / '0' - Não");
+                            continua = scr.nextInt();
+                        }
+                    }
+                    verificaInsert = true;
+                } catch (InputMismatchException e) {
+                    System.out.println(VALOR_INVÁLIDO_DIGITE_UM_NÚMERO_VÁLIDO);
+                    verificaInsert = false;
+                }
+            }
+            System.out.println(isWritable(blockSize, fileSize, valores));
+
+            System.out.println("-------------------------------------------------");
+            System.out.println("Deseja repetir a operação: '1' - Sim / '0' - Não");
+            verificaInsert = false;
+            while (!verificaInsert) {
+                try {
+                    repetirOperacao = scr.nextInt();
+                    if (repetirOperacao > 1) {
+                        throw new InputMismatchException();
+                    }
+                    verificaInsert = true;
+                } catch (InputMismatchException e) {
+                    System.out.println(VALOR_INVÁLIDO_DIGITE_UM_NÚMERO_VÁLIDO);
+                    verificaInsert = false;
+                }
+            }
+        }
+    }
+
+    private static boolean isWritable(int blockSize, int fileSize, Set<Integer> occupiedSectors) {
+
+        int[] memoriaVirtual = new int[(blockSize)];
+
+        int contagemEspaco = 0;
+        for (Integer setor : occupiedSectors) {
+            memoriaVirtual[setor - 1] = 1;
+        }
+
+        for (int i = 0; i < blockSize; i++) {
+            contagemEspaco = (memoriaVirtual[i] == 0) ? (contagemEspaco + 1) : 0;
+
+            if (contagemEspaco == fileSize) return true;
+        }
+
+        return false;
+    }
+}

@@ -1,0 +1,106 @@
+package Exercicio2;
+
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
+
+public class atividade2 {
+    public static final String VALOR_INVÁLIDO_DIGITE_UM_NÚMERO_VÁLIDO = "valor inválido, digite um número válido";
+
+    public static void main(String[] args) {
+        System.out.println("-------------------------------------------------");
+        System.out.println("Verificador de inteiro intruso no array");
+        System.out.println("-------------------------------------------------");
+        int repetirOperacao = 1;
+        int qtdItensArray = 0;
+        long segundoVL = 0;
+        boolean minimo3 = false;
+        Scanner scr = new Scanner(System.in);
+
+        while (repetirOperacao == 1) {
+            boolean verificaInsert = false;
+            while (!verificaInsert) {
+                try {
+                    minimo3 = false;
+                    System.out.println("Insira número de itens no array: (minimo 3)");
+                    qtdItensArray = scr.nextInt();
+                    if (qtdItensArray < 3) {
+                        minimo3 = true;
+                        throw new InputMismatchException();
+                    }
+                    verificaInsert = true;
+                } catch (InputMismatchException e) {
+                    if (minimo3) {
+                        System.out.println("digite um valor igual ou superior a 3");
+                    } else {
+                        System.out.println(VALOR_INVÁLIDO_DIGITE_UM_NÚMERO_VÁLIDO);
+                    }
+                    verificaInsert = false;
+                }
+            }
+
+            int[] arryInteiros = new int[qtdItensArray];
+
+            verificaInsert = false;
+            while (!verificaInsert) {
+                try {
+                    for (int i = 0; i < qtdItensArray; i++) {
+                        System.out.println("Insira número na posição " + i + " do array:");
+                        arryInteiros[i] = scr.nextInt();
+                        verificaInsert = true;
+                    }
+                } catch (InputMismatchException e) {
+                    System.out.println(VALOR_INVÁLIDO_DIGITE_UM_NÚMERO_VÁLIDO);
+                    verificaInsert = false;
+                }
+            }
+
+            int resultado = intruso(arryInteiros);
+
+            System.out.println("" + resultado + " (o unico elemento " + ((resultado % 2 == 0) ? "par)" : "impar)"));
+            System.out.println("-------------------------------------------------");
+            System.out.println("Deseja repetir a operação: '1' - Sim / '0' - Não");
+            verificaInsert = false;
+            while (!verificaInsert) {
+                Scanner scr2 = new Scanner(System.in);
+                try {
+                    repetirOperacao = scr2.nextInt();
+                    if (repetirOperacao > 1) {
+                        throw new InputMismatchException();
+                    }
+                    verificaInsert = true;
+
+                } catch (InputMismatchException e) {
+                    System.out.println(VALOR_INVÁLIDO_DIGITE_UM_NÚMERO_VÁLIDO);
+                    verificaInsert = false;
+                }
+            }
+        }
+    }
+
+    private static int intruso(int[] nums) {
+        int primeiroPar = 0;
+        int primeiroImpar = 0;
+        int countPar = 0;
+        int countImpar = 0;
+
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] % 2 == 0) {
+                if (countPar == 0) {
+                    primeiroPar = nums[i];
+                }
+                countPar++;
+            } else {
+                if (countImpar == 0) {
+                    primeiroImpar = nums[i];
+                }
+            }
+        }
+        if (countPar > 1) {
+            return primeiroImpar;
+        }else {
+            return primeiroPar;
+        }
+    }
+}
+

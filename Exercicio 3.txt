@@ -1,0 +1,72 @@
+package Exercicio3;
+
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
+public class Atividade3 {
+    private final static long CONST = 3141592653590L;
+
+    public static final String VALOR_INVÁLIDO_DIGITE_UM_NÚMERO_VÁLIDO = "valor inválido, digite um número válido";
+
+    public static void main(String[] args)
+    {
+        System.out.println("-------------------------------------------------------------------------------");
+        System.out.println("    Contar quantidade de zeros a direita no resultado do fatorial do número");
+        System.out.println("-------------------------------------------------------------------------------");
+
+        int repetirOperacao = 1;
+        long valor = 0;
+        Scanner scr = new Scanner(System.in);
+
+        while (repetirOperacao == 1) {
+            boolean verificaInsert = false;
+            while (!verificaInsert) {
+                try {
+                    System.out.println("Insira o número:");
+                    valor = scr.nextLong();
+                    verificaInsert = true;
+                } catch (InputMismatchException e) {
+                    System.out.println(VALOR_INVÁLIDO_DIGITE_UM_NÚMERO_VÁLIDO);
+                    verificaInsert = false;
+                }
+            }
+            contaZeros(valor);
+            System.out.println("-------------------------------------------------");
+            System.out.println("Deseja repetir a operação: '1' - Sim / '0' - Não");
+            verificaInsert = false;
+            while (!verificaInsert) {
+                try {
+                    repetirOperacao = scr.nextInt();
+                    if (repetirOperacao > 1) {
+                        throw new InputMismatchException();
+                    }
+                    verificaInsert = true;
+                } catch (InputMismatchException e) {
+                    System.out.println(VALOR_INVÁLIDO_DIGITE_UM_NÚMERO_VÁLIDO);
+                    verificaInsert = false;
+                }
+            }
+        }
+    }
+
+    private static void contaZeros(long valor){
+        long quantidadeZeros = 0;
+        long expoente = 1;
+        long resultadoDivisao = -1;
+        while (resultadoDivisao != 0)
+        {
+            resultadoDivisao = (valor / divisorEquacao( expoente));
+            quantidadeZeros += resultadoDivisao;
+            expoente++;
+        }
+        System.out.println("O fatorial do numero " + valor + " possui " + quantidadeZeros +" zeros a direita !");
+    }
+
+    private static long divisorEquacao ( long expoente)
+    {
+        long resultado = 5;
+        for (long i=1 ; i<expoente ; i++)
+            resultado *= 5;
+        return resultado;
+    }
+}

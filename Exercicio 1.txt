@@ -1,0 +1,108 @@
+package Exercicio1;
+
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
+
+public class atividade1 {
+
+    public static final String VALOR_INVÁLIDO_DIGITE_UM_NÚMERO_VÁLIDO = "valor inválido, digite um número válido";
+
+    public static void main(String[] args) {
+
+        System.out.println("-------------------------------------------------");
+        System.out.println("Verificador de caracteres duplicados em um número");
+        System.out.println("-------------------------------------------------");
+        int repetirOperacao = 1;
+        long primeiroVL = 0;
+        long segundoVL = 0;
+        Scanner scr = new Scanner(System.in);
+
+        while (repetirOperacao == 1) {
+            boolean verificaInsert = false;
+            while (!verificaInsert) {
+                try {
+                    System.out.println("Insira o primeiro número:");
+                    primeiroVL = scr.nextLong();
+                    verificaInsert = true;
+                } catch (InputMismatchException e) {
+                    System.out.println(VALOR_INVÁLIDO_DIGITE_UM_NÚMERO_VÁLIDO);
+                    verificaInsert = false;
+                }
+            }
+            verificaInsert = false;
+            while (!verificaInsert) {
+                try {
+                    System.out.println("Insira o segundo número:");
+                    segundoVL = scr.nextLong();
+                    verificaInsert = true;
+                } catch (InputMismatchException e) {
+                    System.out.println(VALOR_INVÁLIDO_DIGITE_UM_NÚMERO_VÁLIDO);
+                    verificaInsert = false;
+                }
+            }
+            System.out.println("Resultado :" + triploEDobrro(primeiroVL, segundoVL));
+            System.out.println("-------------------------------------------------");
+            System.out.println("Deseja repetir a operação: '1' - Sim / '0' - Não");
+            verificaInsert = false;
+            while (!verificaInsert) {
+                try {
+                    repetirOperacao = scr.nextInt();
+                    if (repetirOperacao > 1) {
+                        throw new InputMismatchException();
+                    }
+                    verificaInsert = true;
+
+                } catch (InputMismatchException e) {
+                    System.out.println(VALOR_INVÁLIDO_DIGITE_UM_NÚMERO_VÁLIDO);
+                    verificaInsert = false;
+                }
+            }
+        }
+    }
+
+    private static int triploEDobrro(long num1, long num2) {
+        char[] numero1 = String.valueOf(num1).toCharArray();
+        char[] numero2 = String.valueOf(num2).toCharArray();
+        return (validaTresNumeros(numero1) && validaDoisNumeros(numero2)) ? 1 : 0;
+    }
+
+    private static boolean validaDoisNumeros(char[] numero) {
+        boolean contem = false;
+        for (int i = 0; i < numero.length; i++) {
+            if (i != numero.length - 1) {
+                char variavelPrimaria = numero[i];
+                char variavelSecundaria = numero[i + 1];
+                if (variavelPrimaria == variavelSecundaria) {
+                    contem = true;
+                    break;
+                }
+            }
+        }
+        return contem;
+    }
+
+    private static boolean validaTresNumeros(char[] numero) {
+        for (int i = 0; i < numero.length; i++) {
+            char numeroBase = numero[i];
+            if (i < numero.length - 2) {
+                for (int j = 1; j < numero.length; j++) {
+                    char segundoNumero = numero[j];
+                    if (j < numero.length -1) {
+                        char terceiroNumero = numero[j + 1];
+//                        System.out.println("numeroBase :" + numeroBase + "segundoNumero :" + segundoNumero +"terceiroNumero :" + terceiroNumero);
+                        if (numeroBase == segundoNumero && numeroBase == terceiroNumero) {
+                            return true;
+                        }
+                    }else {
+                        break;
+                    }
+                }
+            }else {
+                break;
+            }
+        }
+        return false;
+    }
+}
+
